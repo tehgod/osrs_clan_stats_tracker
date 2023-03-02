@@ -1,0 +1,7 @@
+version: "3"
+services:
+  skilling_gainz_bot:
+    image: skilling_gainz_bot_image
+    volumes:
+      - local_folder_path:/config
+    restart: unless-stopped
