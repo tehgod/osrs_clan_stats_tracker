@@ -1,6 +1,6 @@
 
 import requests
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 import json
 from statistics import mean
 import os
@@ -441,4 +441,5 @@ if __name__ == "__main__":
     schedule.every().day.at("12:10").do(my_discord.generate_daily_top_skill_earners)
     while True:
         schedule.run_pending()
+        print(f"Current time is {datetime.now().strftime('%H:%M:%S')}, sleeping for 60 seconds.")
         sleep(60)
