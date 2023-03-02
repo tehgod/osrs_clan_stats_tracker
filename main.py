@@ -27,14 +27,14 @@ class clan:
             for member in self.clan_list:
                 current_member = member.convert_to_json()
                 dataset[current_member["username"]] = current_member["data_set"]
-            with open(f"./daily_stats/{filename}.{filetype}", "w") as my_file:
+            with open(f"./config/daily_stats/{filename}.{filetype}", "w") as my_file:
                 json.dump(dataset, my_file)
                 my_file.close()
         elif filetype == "csv":
             dataset = []
             for member in self.clan_list:
                 dataset.append(member.convert_to_csv())
-            with open(f"./daily_stats/{filename}.{filetype}", "w") as my_file:
+            with open(f"./config/daily_stats/{filename}.{filetype}", "w") as my_file:
                 my_file.write("\n".join(dataset))
                 my_file.close()
         pass
@@ -295,7 +295,7 @@ class discord_commands:
         else:
             print("Payload delivered successfully, code {}.".format(result.status_code))
         
-    def generate_daily_top_skill_earners(self, json_filepath=(f"""./daily_stats_comparisons/{(date.today() - timedelta(days = 1)).strftime("%b-%d-%Y")}---{date.today().strftime("%b-%d-%Y")}.json"""), amount=3):
+    def generate_daily_top_skill_earners(self, json_filepath=(f"""./config/daily_stats_comparisons/{(date.today() - timedelta(days = 1)).strftime("%b-%d-%Y")}---{date.today().strftime("%b-%d-%Y")}.json"""), amount=3):
         with open(categories_filename) as my_file:
             skills_list = json.load(my_file)["Skills"]
             skills_list.remove("overall")
@@ -336,12 +336,12 @@ def generate_daily_datasheet(filetype="json"):
 def generate_comparison_datasheet(previous_day_json=(f"""{(date.today() - timedelta(days = 1)).strftime("%b-%d-%Y")}.json"""), sooner_day_json=(f"""{date.today().strftime("%b-%d-%Y")}.json""")):
     with open(members_list_filename) as my_json:
         clan_members = json.load(my_json)
-    with open(f"./daily_stats/{previous_day_json}") as my_file:
+    with open(f"./config/daily_stats/{previous_day_json}") as my_file:
         spreadsheet1 = json.load(my_file)
         member_list_1 = []
         for member in spreadsheet1:
             member_list_1.append(member)
-    with open(f"./daily_stats/{sooner_day_json}") as my_file:
+    with open(f"./config/daily_stats/{sooner_day_json}") as my_file:
         spreadsheet2 = json.load(my_file)
         member_list_2 = []
         for member in spreadsheet2:
@@ -428,7 +428,7 @@ def generate_comparison_datasheet(previous_day_json=(f"""{(date.today() - timede
             new_value = {'rank': rank_difference, 'score': score_difference}
             user_dataset[clue] = new_value
         new_dataset[new_username] = user_dataset
-    new_filename = "./daily_stats_comparisons/" + previous_day_json[:previous_day_json.find('.json')]+'---'+sooner_day_json[:sooner_day_json.find('.json')]+'.json'
+    new_filename = "./config/daily_stats_comparisons/" + previous_day_json[:previous_day_json.find('.json')]+'---'+sooner_day_json[:sooner_day_json.find('.json')]+'.json'
     with open(new_filename, "w") as my_file:
         json.dump(new_dataset, my_file)
         my_file.close()    
